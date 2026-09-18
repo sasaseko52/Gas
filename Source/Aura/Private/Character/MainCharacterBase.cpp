@@ -13,9 +13,6 @@ AMainCharacterBase::AMainCharacterBase()
 	Weapon->SetupAttachment(GetMesh(),FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	SecondWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("SecondWeapon");
-	SecondWeapon->SetupAttachment(GetMesh(),FName("SecondWeaponHandSocket"));
-	SecondWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called when the game starts or when spawned
