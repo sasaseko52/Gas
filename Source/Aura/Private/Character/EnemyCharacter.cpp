@@ -2,10 +2,16 @@
 
 
 #include "Character/EnemyCharacter.h"
+#include "AbilitySystem/FrozenAbilitySystemComponent.h"
+#include "AbilitySystem/FrozenAttributeSet.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
+	AbilitySystemComponent = CreateDefaultSubobject<UFrozenAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+	
+	AttributeSet = CreateDefaultSubobject<UFrozenAttributeSet>("AttributeSet");
 }
 
 void AEnemyCharacter::HighlightActor()
