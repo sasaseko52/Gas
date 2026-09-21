@@ -15,9 +15,16 @@ class AURA_API AFrozenPlayerState : public APlayerState , public IAbilitySystemI
 	GENERATED_BODY()
 	
 public:
+	
 	AFrozenPlayerState();
+	//Getters
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const;
+	
+	
+	
+	
+	
 protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

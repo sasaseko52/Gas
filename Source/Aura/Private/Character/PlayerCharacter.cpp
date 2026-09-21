@@ -3,7 +3,9 @@
 
 #include "Character/PlayerCharacter.h"
 
+#include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/FrozenPlayerState.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -14,4 +16,27 @@ APlayerCharacter::APlayerCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+	
+}
+
+
+void APlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilityActorInfo();
+}
+
+void APlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilityActorInfo(); 
+}
+
+void APlayerCharacter::InitAbilityActorInfo()
+{
+	AFrozenPlayerState* FrozenPlayerState = GetPlayerState<AFrozenPlayerState>();
+	check(FrozenPlayerState);
+	FrozenPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FrozenPlayerState,this);
+	AbilitySystemComponent = FrozenPlayerState->GetAbilitySystemComponent();
+	AttributeSet = FrozenPlayerState->GetAttributeSet();
 }

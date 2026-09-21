@@ -12,6 +12,7 @@ AFrozenPlayerState::AFrozenPlayerState()
 	NetUpdateFrequency = 100.f;
 	AbilitySystemComponent = CreateDefaultSubobject<UFrozenAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
 	AttributeSet = CreateDefaultSubobject<UFrozenAttributeSet>("AttributeSet");
 }
