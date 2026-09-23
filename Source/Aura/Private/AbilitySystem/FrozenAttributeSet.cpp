@@ -11,6 +11,8 @@ UFrozenAttributeSet::UFrozenAttributeSet()
 	InitMaxHealth(100.f);
 	InitMana(100.f);
 	InitMaxMana(100.f);
+	
+	
 }
 
 void UFrozenAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
