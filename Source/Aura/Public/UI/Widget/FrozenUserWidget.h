@@ -16,7 +16,7 @@ class AURA_API UFrozenUserWidget : public UUserWidget
 	
 public:
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SetWidgetController(UObject* InWidgetController);
 	
 	

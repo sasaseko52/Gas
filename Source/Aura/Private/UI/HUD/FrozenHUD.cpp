@@ -37,6 +37,7 @@ void AFrozenHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySy
 	// Connect Both Overlay Widget & OverlayWidget Controller 
 	
 	OverlayWidget->SetWidgetController(InOverlayWidgetController);
+	InOverlayWidgetController->BroadcastInitialValues();
 	
 	OverlayWidget->AddToViewport();
 }
