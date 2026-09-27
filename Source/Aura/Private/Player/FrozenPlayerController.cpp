@@ -27,9 +27,11 @@ void AFrozenPlayerController::BeginPlay()
 	check(FrozenContext);
 	
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-	Subsystem->AddMappingContext(FrozenContext,0);
-	
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(FrozenContext,0);
+	}
+		
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 	

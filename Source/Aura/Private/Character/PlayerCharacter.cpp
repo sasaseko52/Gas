@@ -5,7 +5,9 @@
 
 #include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/FrozenPlayerController.h"
 #include "Player/FrozenPlayerState.h"
+#include "UI/HUD/FrozenHUD.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -39,4 +41,13 @@ void APlayerCharacter::InitAbilityActorInfo()
 	FrozenPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FrozenPlayerState,this);
 	AbilitySystemComponent = FrozenPlayerState->GetAbilitySystemComponent();
 	AttributeSet = FrozenPlayerState->GetAttributeSet();
+	
+	if (AFrozenPlayerController* FrozenPlayerController = Cast<AFrozenPlayerController>(GetController()))
+	{
+		if (AFrozenHUD* FrozenHUD= Cast<AFrozenHUD>(FrozenPlayerController->GetHUD()))
+		{
+			FrozenHUD->InitOverlay(FrozenPlayerController,FrozenPlayerState,AbilitySystemComponent,AttributeSet);
+		}
+	}
+	
 }
