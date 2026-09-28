@@ -16,3 +16,8 @@ void UFrozenWidgetController::BroadcastInitialValues()
 {
 	
 }
+
+void UFrozenWidgetController::BindCallbacksToDependencies()
+{
+	
+}

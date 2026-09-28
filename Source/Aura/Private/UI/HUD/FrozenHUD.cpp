@@ -14,6 +14,7 @@ UOverlayWidgetController* AFrozenHUD::GetOverlayWidgetController(const FWidgetCo
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this , OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParameters(WCParams);
+		OverlayWidgetController->BindCallbacksToDependencies();
 		return OverlayWidgetController;
 	}
 	return OverlayWidgetController;

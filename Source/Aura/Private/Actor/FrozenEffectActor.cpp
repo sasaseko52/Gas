@@ -28,7 +28,7 @@ void AFrozenEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	{
 		const UFrozenAttributeSet* FrozenAttributeSet =Cast<UFrozenAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UFrozenAttributeSet::StaticClass()));
 		UFrozenAttributeSet* MutableFrozenAttributeSet = const_cast<UFrozenAttributeSet*>(FrozenAttributeSet);
-		MutableFrozenAttributeSet->SetHealth(FrozenAttributeSet->GetHealth()+25.f);
+		MutableFrozenAttributeSet->SetMana(FrozenAttributeSet->GetMana()-25.f);
 		Destroy();
 	}
 }
