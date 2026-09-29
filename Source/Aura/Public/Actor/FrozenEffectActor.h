@@ -6,8 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "FrozenEffectActor.generated.h"
 
-class USphereComponent;
-class UStaticMeshComponent;
+class UGameplayEffect;
 UCLASS()
 class AURA_API AFrozenEffectActor : public AActor
 {
@@ -17,21 +16,17 @@ public:
 	
 	AFrozenEffectActor();
 
-	UFUNCTION()
-	virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,const FHitResult& SweepResult);
-	UFUNCTION()
-	virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	
 protected:
 	
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly,EditAnywhere , Category= "Effects")
+	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
+	
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToTarget(AActor* Target,TSubclassOf<UGameplayEffect> GameplayEffectClass);
 private:
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
-	
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> Mesh;
-	
 	
 
 };
