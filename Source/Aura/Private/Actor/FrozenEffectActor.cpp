@@ -4,7 +4,7 @@
 #include "Actor/FrozenEffectActor.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
-#include "Chaos/PBDSuspensionConstraintData.h"
+
 
 
 AFrozenEffectActor::AFrozenEffectActor()
@@ -30,7 +30,7 @@ void AFrozenEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGamepl
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle  EffectContextHandle =TargetAbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this); 
-	FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass,1.f,EffectContextHandle);
+	FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass,ActorLevel,EffectContextHandle);
 	FActiveGameplayEffectHandle ActiveEffectHandle= TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 	
 	const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
