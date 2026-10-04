@@ -19,11 +19,18 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	InitAbilityActorInfo();
 	
 	
 	
 }
+
+void AEnemyCharacter::InitAbilityActorInfo()
+{
+	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	Cast<UFrozenAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+}
+
 void AEnemyCharacter::HighlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(true);
