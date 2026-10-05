@@ -8,12 +8,6 @@
 
 class UFrozenUserWidget;
 struct FOnAttributeChangeData;
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature,float, NewMaxHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature, float, NewMana);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, NewMaxMana);
-
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
 {
@@ -26,12 +20,15 @@ struct FUIWidgetRow : public FTableRowBase
 	FText Message = FText();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UFrozenUserWidget> MessageWidget;
+	TSubclassOf<class UFrozenUserWidget> MessageWidget;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTexture2D* Image = nullptr;
 	
 };
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMessageWidgetRowSignature,FUIWidgetRow,UIWidgetRow);
 
 
 UCLASS(BlueprintType, Blueprintable)
@@ -46,17 +43,19 @@ public:
 	
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnHealthChangedSignature OnHealthChangedDelegate;
+	FOnAttributeChangedSignature OnHealthChangedDelegate;
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnMaxHealthChangedSignature OnMaxHealthChangedDelegate;
+	FOnAttributeChangedSignature OnMaxHealthChangedDelegate;
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnManaChangedSignature OnManaChangedDelegate;
+	FOnAttributeChangedSignature OnManaChangedDelegate;
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnMaxManaChangedSignature OnMaxManaChangedDelegate;
+	FOnAttributeChangedSignature OnMaxManaChangedDelegate;
 	
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnMessageWidgetRowSignature MessageWidgetRowDelegate;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, category = "WidgetData")

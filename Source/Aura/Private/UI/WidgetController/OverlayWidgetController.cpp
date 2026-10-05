@@ -52,8 +52,13 @@ void UOverlayWidgetController::TagContainerChanged(const FGameplayTagContainer& 
 {
 	for (const FGameplayTag& Tag : TagContainer)
 	{
-		FUIWidgetRow* WidgetRow = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable,Tag);
-		WidgetRow->Message;
-		GEngine->AddOnScreenDebugMessage(-1,3,FColor::Green,FString::Printf(TEXT("TagContainerChanged,%s"),*WidgetRow->Message.ToString()));
+		FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+		if (Tag.MatchesTag(MessageTag))
+		{
+			FUIWidgetRow* WidgetRow = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable,Tag);
+			MessageWidgetRowDelegate.Broadcast(*WidgetRow);
+		}
+			
+	
 	}
 }
