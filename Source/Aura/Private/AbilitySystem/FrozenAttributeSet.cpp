@@ -28,9 +28,9 @@ void UFrozenAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePrope
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,MaxMana,COND_None,REPNOTIFY_Always);
 }
 
-void UFrozenAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+void UFrozenAttributeSet:: PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
 {
-	Super::PreAttributeChange(Attribute, NewValue);
+	Super::PreAttributeBaseChange(Attribute, NewValue);
 	
 	if (Attribute == GetHealthAttribute())
 	{

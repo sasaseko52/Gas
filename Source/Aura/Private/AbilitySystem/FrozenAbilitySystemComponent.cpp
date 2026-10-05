@@ -12,6 +12,8 @@ void UFrozenAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Abili
                                                   const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
 {
 	
-	GEngine->AddOnScreenDebugMessage(1,8.f,FColor::Green,FString("Effect Applied!!"));
+	FGameplayTagContainer Container;
+	EffectSpec.GetAllAssetTags(Container); 
+	EffectAssetTagsDelegate.Broadcast(Container);
 	
 }

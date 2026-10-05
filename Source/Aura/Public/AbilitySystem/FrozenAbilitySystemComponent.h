@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "FrozenAbilitySystemComponent.generated.h"
 
+ DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsSignature,const FGameplayTagContainer&);
 /**
  * 
  */
@@ -16,9 +17,8 @@ class AURA_API UFrozenAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	
 	void AbilityActorInfoSet();
-	
+	FEffectAssetTagsSignature EffectAssetTagsDelegate;
 protected:
-	
 	
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
 	
