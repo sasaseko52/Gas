@@ -26,26 +26,18 @@ void UFrozenAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePrope
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,MaxHealth,COND_None,REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Mana,COND_None,REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,MaxMana,COND_None,REPNOTIFY_Always);
+	
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Intelligence,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Strength,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Vigor,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Resilience,COND_None,REPNOTIFY_Always);
 }
 
-void UFrozenAttributeSet:: PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
-{
-	Super::PreAttributeBaseChange(Attribute, NewValue);
-	
-	if (Attribute == GetHealthAttribute())
-	{
-		NewValue = FMath::Clamp(NewValue,0.f,GetMaxHealth());
-		
-	}
-	if (Attribute == GetManaAttribute())
-	{
-		NewValue = FMath::Clamp(NewValue,0.f,GetMaxMana());
-		
-	}
-	
-}
+
+
+
 void UFrozenAttributeSet::SetEffectProperties(FEffectProperties& EffectProperties,
-	const FGameplayEffectModCallbackData& Data)
+                                              const FGameplayEffectModCallbackData& Data)
 {
 	EffectProperties.EffectContextHandle = Data.EffectSpec.GetContext();
 	 
@@ -82,6 +74,15 @@ void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffect
 	Super::PostGameplayEffectExecute(Data);
 	FEffectProperties EffectProps;
 	SetEffectProperties(EffectProps,Data);
+	
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(),0.f,GetMaxHealth()));
+	}
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetMana(FMath::Clamp(GetMana(),0.f,GetMaxMana()));
+	}
 }
 
 
@@ -106,4 +107,19 @@ void UFrozenAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,MaxMana, OldMaxMana);
 }
-
+void UFrozenAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,Strength, OldStrength)
+}
+void UFrozenAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,Intelligence, OldIntelligence)
+}
+void UFrozenAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,Vigor, OldVigor)
+}
+void UFrozenAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,Resilience, OldResilience)
+}

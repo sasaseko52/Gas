@@ -2,7 +2,7 @@
 
 
 #include "Character/MainCharacterBase.h"
-
+#include "AbilitySystemComponent.h"
 
 
 AMainCharacterBase::AMainCharacterBase()
@@ -34,5 +34,16 @@ void AMainCharacterBase::BeginPlay()
 
 void AMainCharacterBase::InitAbilityActorInfo()
 {
+}
+
+void AMainCharacterBase::InitializePrimaryAttributes()
+{
+	check(IsValid(GetAbilitySystemComponent()));
+	check(DefaultPrimaryAttributes);
+	const  FGameplayEffectContextHandle ContextHandle =GetAbilitySystemComponent()->MakeEffectContext();
+	const  FGameplayEffectSpecHandle EffectSpec =GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes,1.f,ContextHandle);
+	 GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*EffectSpec.Data.Get(),GetAbilitySystemComponent());
+	
+	
 }
 

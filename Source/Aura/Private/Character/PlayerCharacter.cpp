@@ -44,6 +44,7 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = FrozenPlayerState->GetAbilitySystemComponent();
 	AttributeSet = FrozenPlayerState->GetAttributeSet();
 	
+	
 	if (AFrozenPlayerController* FrozenPlayerController = Cast<AFrozenPlayerController>(GetController()))
 	{
 		if (AFrozenHUD* FrozenHUD= Cast<AFrozenHUD>(FrozenPlayerController->GetHUD()))
@@ -51,6 +52,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 			FrozenHUD->InitOverlay(FrozenPlayerController,FrozenPlayerState,AbilitySystemComponent,AttributeSet);
 		}
 	}
-	
+	InitializePrimaryAttributes();
 	
 }
