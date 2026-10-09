@@ -52,6 +52,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 			FrozenHUD->InitOverlay(FrozenPlayerController,FrozenPlayerState,AbilitySystemComponent,AttributeSet);
 		}
 	}
-	InitializePrimaryAttributes();
+	InitializeDefaultDefaultAttributes();
 	
 }

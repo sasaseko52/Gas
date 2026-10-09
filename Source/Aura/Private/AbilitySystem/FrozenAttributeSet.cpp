@@ -10,10 +10,9 @@
 
 UFrozenAttributeSet::UFrozenAttributeSet()
 {
-	InitHealth(50.f);
-	InitMaxHealth(100.f);
-	InitMana(50.f);
-	InitMaxMana(100.f);
+	InitHealth(10.f);
+
+	InitMaxMana(10.f);
 	
 	
 }
@@ -31,6 +30,19 @@ void UFrozenAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePrope
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Strength,COND_None,REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Vigor,COND_None,REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Resilience,COND_None,REPNOTIFY_Always);
+	
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,Armor,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,ArmorPenetration,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,BlockChance,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,CriticalHitChance,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,CriticalHitDamage,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,CriticalHitResistance,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,HealthRegeneration,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFrozenAttributeSet,ManaRegeneration,COND_None,REPNOTIFY_Always);
+	
+	
+	
+	
 }
 
 
@@ -122,4 +134,44 @@ void UFrozenAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) co
 void UFrozenAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,Resilience, OldResilience)
+}
+
+void UFrozenAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,Armor, OldArmor)
+}
+
+void UFrozenAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,ArmorPenetration, OldArmorPenetration)
+}
+
+void UFrozenAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,BlockChance, OldBlockChance)
+}
+
+void UFrozenAttributeSet::OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,CriticalHitChance, OldCriticalHitChance)
+}
+
+void UFrozenAttributeSet::OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,CriticalHitDamage, OldCriticalHitDamage)
+}
+
+void UFrozenAttributeSet::OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,CriticalHitResistance, OldCriticalHitResistance)
+}
+
+void UFrozenAttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,HealthRegeneration, OldHealthRegeneration)
+}
+
+void UFrozenAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFrozenAttributeSet,ManaRegeneration, OldManaRegeneration)
 }

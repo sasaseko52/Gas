@@ -36,14 +36,22 @@ void AMainCharacterBase::InitAbilityActorInfo()
 {
 }
 
-void AMainCharacterBase::InitializePrimaryAttributes()
+void AMainCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level)
 {
 	check(IsValid(GetAbilitySystemComponent()));
-	check(DefaultPrimaryAttributes);
+	check(GameplayEffectClass);
 	const  FGameplayEffectContextHandle ContextHandle =GetAbilitySystemComponent()->MakeEffectContext();
-	const  FGameplayEffectSpecHandle EffectSpec =GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes,1.f,ContextHandle);
-	 GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*EffectSpec.Data.Get(),GetAbilitySystemComponent());
-	
-	
+	const  FGameplayEffectSpecHandle EffectSpec =GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass,Level,ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*EffectSpec.Data.Get(),GetAbilitySystemComponent());
 }
+
+void AMainCharacterBase::InitializeDefaultDefaultAttributes()
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes,1);
+	ApplyEffectToSelf(DefaultSecondaryAttributes,1);
+}
+
+
+
+
 

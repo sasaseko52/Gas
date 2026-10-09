@@ -59,12 +59,6 @@ public:
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth)const;
 	
-	///MaxHealth
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxHealth, Category="Vital Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,MaxHealth);
-	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)const;
 	
 	///Mana
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing= OnRep_Mana,Category="Vital Attributes")
@@ -73,13 +67,7 @@ public:
 	UFUNCTION()
 	void OnRep_Mana(const FGameplayAttributeData& OldMana)const;
 	
-	///MaxMana
-	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_MaxMana,Category="Vital Attributes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,MaxMana);
-	UFUNCTION()
-	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana)const;
-	
+	/*Primary Attributes*/
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Strength,Category="Primary Attributes")
 	FGameplayAttributeData Strength;
 	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,Strength);
@@ -103,7 +91,70 @@ public:
 	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,Resilience);
 	UFUNCTION()
 	void OnRep_Resilience(const FGameplayAttributeData& OldResilience)const;
+	/*Secondary Attributes*/
 	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Armor,Category="Secondary Attributes")
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,Armor);
+	UFUNCTION()
+	void OnRep_Armor(const FGameplayAttributeData& OldArmor)const;
+	
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_ArmorPenetration,Category="Secondary Attributes")
+	FGameplayAttributeData ArmorPenetration;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,ArmorPenetration);
+	UFUNCTION()
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration)const;
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_BlockChance,Category="Secondary Attributes")
+	FGameplayAttributeData BlockChance;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,BlockChance);
+	UFUNCTION()
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance)const;
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CriticalHitChance,Category="Secondary Attributes")
+	FGameplayAttributeData CriticalHitChance;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,CriticalHitChance);
+	UFUNCTION()
+	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance)const;
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CriticalHitDamage,Category="Secondary Attributes")
+	FGameplayAttributeData CriticalHitDamage;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,CriticalHitDamage);
+	UFUNCTION()
+	void OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage)const;
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_CriticalHitResistance,Category="Secondary Attributes")
+	FGameplayAttributeData CriticalHitResistance;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,CriticalHitResistance);
+	UFUNCTION()
+	void OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance)const;
+	
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_HealthRegeneration,Category="Secondary Attributes")
+	FGameplayAttributeData HealthRegeneration;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,HealthRegeneration);
+	UFUNCTION()
+	void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration)const;
+	
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_ManaRegeneration,Category="Secondary Attributes")
+	FGameplayAttributeData ManaRegeneration;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,ManaRegeneration);
+	UFUNCTION()
+	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration)const;
+	
+	///MaxMana
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_MaxMana,Category="Vital Attributes")
+	FGameplayAttributeData MaxMana;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,MaxMana);
+	UFUNCTION()
+	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana)const;
+	///MaxHealth
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_MaxHealth, Category="Vital Attributes")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,MaxHealth);
+	UFUNCTION()
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)const;
 private:
 	
 	void SetEffectProperties(FEffectProperties& EffectProperties,const FGameplayEffectModCallbackData& Data);  
