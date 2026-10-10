@@ -17,11 +17,13 @@ class AURA_API AFrozenPlayerState : public APlayerState , public IAbilitySystemI
 public:
 	
 	AFrozenPlayerState();
+	
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	//Getters
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const;
 	
-	
+	FORCEINLINE int32 GetPlayerLevel() const {return Level;}
 	
 	
 	
@@ -32,5 +34,12 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	
+
+private:
 	
+	UPROPERTY(ReplicatedUsing= OnRep_Level,VisibleAnywhere)
+	int32 Level = 1;
+	
+	UFUNCTION()
+	void OnRep_Level(int32 OldLevel);
 };

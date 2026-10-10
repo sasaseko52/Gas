@@ -15,6 +15,11 @@ AEnemyCharacter::AEnemyCharacter()
 	AttributeSet = CreateDefaultSubobject<UFrozenAttributeSet>("AttributeSet");
 }
 
+int32 AEnemyCharacter::GetPlayerLevel()
+{
+	return EnemyLevel;
+}
+
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();

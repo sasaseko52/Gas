@@ -3,6 +3,7 @@
 
 #include "Character/MainCharacterBase.h"
 #include "AbilitySystemComponent.h"
+#include "Player/FrozenPlayerState.h"
 
 
 AMainCharacterBase::AMainCharacterBase()
@@ -24,6 +25,8 @@ UAttributeSet* AMainCharacterBase::GetAttributeSet() const
 {
 	return AttributeSet;
 }
+
+
 
 // Called when the game starts or when spawned
 void AMainCharacterBase::BeginPlay()
@@ -50,6 +53,7 @@ void AMainCharacterBase::InitializeDefaultDefaultAttributes()
 	ApplyEffectToSelf(DefaultPrimaryAttributes,1);
 	ApplyEffectToSelf(DefaultSecondaryAttributes,1);
 }
+
 
 
 

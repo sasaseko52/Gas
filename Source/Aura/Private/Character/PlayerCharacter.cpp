@@ -35,6 +35,13 @@ void APlayerCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo(); 
 }
 
+int32 APlayerCharacter::GetPlayerLevel()
+{
+	const AFrozenPlayerState* FrozenPlayerState = GetPlayerState<AFrozenPlayerState>();
+	check(FrozenPlayerState);
+	return FrozenPlayerState->GetPlayerLevel();
+}
+
 void APlayerCharacter::InitAbilityActorInfo()
 {
 	AFrozenPlayerState* FrozenPlayerState = GetPlayerState<AFrozenPlayerState>();
