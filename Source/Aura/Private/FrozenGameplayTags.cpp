@@ -25,5 +25,17 @@ GameplayTagsInstance.Attribute_Secondary_CriticalHitDamage = UGameplayTagsManage
 GameplayTagsInstance.Attribute_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalHitResistance"),FString("CriticalHitResistance"));
 GameplayTagsInstance.Attribute_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.HealthRegeneration"),FString("HealthRegeneration"));
 GameplayTagsInstance.Attribute_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ManaRegeneration"),FString("ManaRegeneration"));
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+GameplayTagsInstance.Quests_Primary_GoblinQuest = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Quests.Primary.GoblinQuest"),FString("GoblinQuest"));
 }
 

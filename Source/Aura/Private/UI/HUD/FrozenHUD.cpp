@@ -4,7 +4,9 @@
 #include "UI/HUD/FrozenHUD.h"
 #include "UI/Widget/FrozenUserWidget.h"
 #include "Blueprint/UserWidget.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
+#include "UI/WidgetController/QuestLogWidgetController.h"
 
 
 UOverlayWidgetController* AFrozenHUD::GetOverlayWidgetController(const FWidgetControllerParameters& WCParams)
@@ -15,9 +17,34 @@ UOverlayWidgetController* AFrozenHUD::GetOverlayWidgetController(const FWidgetCo
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this , OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParameters(WCParams);
 		OverlayWidgetController->BindCallbacksToDependencies();
-		return OverlayWidgetController;
+		
 	}
 	return OverlayWidgetController;
+}
+
+UAttributeMenuWidgetController* AFrozenHUD::GetAttributeMenuWidgetController(
+	const FWidgetControllerParameters& WCParams)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParameters(WCParams);
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+		
+	}
+	return AttributeMenuWidgetController;
+}
+
+UQuestLogWidgetController* AFrozenHUD::GetQuestLogWidegtContorller(const FWidgetControllerParameters& WCParams)
+{
+	if (QuestLogWidgetController == nullptr)
+	{
+		QuestLogWidgetController = NewObject<UQuestLogWidgetController>(this, QuestLogWidgetControllerClass);
+		QuestLogWidgetController->SetWidgetControllerParameters(WCParams);
+		QuestLogWidgetController->BindCallbacksToDependencies();
+	}
+	return QuestLogWidgetController;
+	
 }
 
 void AFrozenHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)

@@ -19,5 +19,5 @@ class AURA_API UFrozenAssetManager : public UAssetManager
 	static UFrozenAssetManager& Get();
 	
 	virtual void StartInitialLoading() override;
-	protected:
+	
 };
