@@ -13,6 +13,9 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+
+
+
 USTRUCT()
 struct FEffectProperties
 {
@@ -42,6 +45,9 @@ struct FEffectProperties
 	UPROPERTY()
 	ACharacter*  TargetCharacter= nullptr;
 };
+
+
+typedef TBaseStaticDelegateInstance<FGameplayAttribute(),FDefaultDelegateUserPolicy>::FFuncPtr AttributeFuncPtr;
 UCLASS()
 class AURA_API UFrozenAttributeSet : public UAttributeSet
 {
@@ -52,6 +58,12 @@ public:
 	 
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 	///Attributes
+	
+	TMap<FGameplayTag,AttributeFuncPtr> GameplayTagsToAttributes;
+	
+	
+	
+	
 	///Health
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Health, Category="Vital Attributes")
 	FGameplayAttributeData Health;

@@ -8,6 +8,7 @@
 #include "Interaction/CombatInterface.h"
 #include "MainCharacterBase.generated.h"
 
+class UGameplayAbility;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
@@ -55,5 +56,8 @@ protected:
 	
 	void InitializeDefaultDefaultAttributes();
 	
-	
+	void AddCharacterAbilities();
+private:
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };

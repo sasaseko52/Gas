@@ -35,20 +35,34 @@ public:
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_ArmorPenetration;
 	FGameplayTag Attributes_Secondary_BlockChance;
-	FGameplayTag Attribute_Secondary_CriticalHitChance;
-	FGameplayTag Attribute_Secondary_CriticalHitDamage;
-	FGameplayTag Attribute_Secondary_CriticalHitResistance;
-	FGameplayTag Attribute_Secondary_HealthRegeneration;
-	FGameplayTag Attribute_Secondary_ManaRegeneration;
+	FGameplayTag Attributes_Secondary_CriticalHitChance;
+	FGameplayTag Attributes_Secondary_CriticalHitDamage;
+	FGameplayTag Attributes_Secondary_CriticalHitResistance;
+	FGameplayTag Attributes_Secondary_HealthRegeneration;
+	FGameplayTag Attributes_Secondary_ManaRegeneration;
 	
 	
 	
 	
 	
 	
+	FGameplayTag QuestCollection_Goblin;
+	FGameplayTag QuestCollection_Skeleton;
+	FGameplayTag QuestCollection_Forest;
+	FGameplayTag QuestCollection_Demon;
 	
 	
-	FGameplayTag Quests_Primary_GoblinQuest;
+	FGameplayTag Quest_Goblin_GoblinExtermination;
+	FGameplayTag Quest_Goblin_GoblinSecond;
+	
+	FGameplayTag Quest_Skeleton_SkeletonHunt;
+	FGameplayTag Quest_Skeleton_DemonicSkeleton;
+	
+	FGameplayTag Quest_Demon_DemonCatch;
+	FGameplayTag Quest_Demon_DemonMinionCatch;
+	
+	FGameplayTag Quest_Forest_Wolves;
+	
 protected:
 	
 	

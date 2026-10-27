@@ -61,7 +61,7 @@ UQuestLogWidgetController* UFrozenAbilitySystemLibrary::GetQuestLogWidgetControl
 			
 			const FWidgetControllerParameters WidgetControllerParameters(PC,PS,ASC,AS);
 			
-			return FrozenHUD->GetQuestLogWidegtContorller(WidgetControllerParameters);
+			return FrozenHUD->GetQuestLogWidgetController(WidgetControllerParameters);
 			
 		}
 		

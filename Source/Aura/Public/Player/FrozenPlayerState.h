@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "FrozenPlayerState.generated.h"
 
+class UQuestManagerComponent;
 class UAbilitySystemComponent;
 class UAttributeSet;
 UCLASS()
@@ -22,7 +23,7 @@ public:
 	//Getters
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const;
-	
+	UQuestManagerComponent* GetQuestManagerComponent() const;
 	FORCEINLINE int32 GetPlayerLevel() const {return Level;}
 	
 	
@@ -34,7 +35,8 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	
-
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Quest")
+	TObjectPtr<UQuestManagerComponent> QuestManagerComponent;
 private:
 	
 	UPROPERTY(ReplicatedUsing= OnRep_Level,VisibleAnywhere)

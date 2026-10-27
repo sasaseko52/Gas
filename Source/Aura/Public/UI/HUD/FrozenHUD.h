@@ -22,7 +22,7 @@ public:
 	
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParameters& WCParams);
 	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParameters& WCParams);
-	UQuestLogWidgetController* GetQuestLogWidegtContorller(const FWidgetControllerParameters& WCParams);
+	UQuestLogWidgetController* GetQuestLogWidgetController(const FWidgetControllerParameters& WCParams);
 	void InitOverlay(APlayerController* PC, APlayerState* PS,UAbilitySystemComponent* ASC,  UAttributeSet* AS);
 protected:
 	

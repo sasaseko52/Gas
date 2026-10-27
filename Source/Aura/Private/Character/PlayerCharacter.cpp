@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/FrozenAbilitySystemComponent.h"
+#include "AbilitySystem/QuestManagerComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/FrozenPlayerController.h"
 #include "Player/FrozenPlayerState.h"
@@ -26,7 +27,10 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	
 	InitAbilityActorInfo();
+	
+	AddCharacterAbilities();
 }
 
 void APlayerCharacter::OnRep_PlayerState()
@@ -50,7 +54,7 @@ void APlayerCharacter::InitAbilityActorInfo()
 	Cast<UFrozenAbilitySystemComponent>(FrozenPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = FrozenPlayerState->GetAbilitySystemComponent();
 	AttributeSet = FrozenPlayerState->GetAttributeSet();
-	
+	FrozenPlayerState->GetQuestManagerComponent()->InitializeQuestStates();
 	
 	if (AFrozenPlayerController* FrozenPlayerController = Cast<AFrozenPlayerController>(GetController()))
 	{

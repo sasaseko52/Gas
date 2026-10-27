@@ -4,6 +4,7 @@
 #include "Player/FrozenPlayerState.h"
 #include "AbilitySystem/FrozenAbilitySystemComponent.h"
 #include "AbilitySystem/FrozenAttributeSet.h"
+#include "AbilitySystem/QuestManagerComponent.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -15,6 +16,7 @@ AFrozenPlayerState::AFrozenPlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
 	AttributeSet = CreateDefaultSubobject<UFrozenAttributeSet>("AttributeSet");
+	QuestManagerComponent = CreateDefaultSubobject<UQuestManagerComponent>("QuestManagerComponent");
 }
 
 void AFrozenPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
@@ -36,6 +38,11 @@ UAbilitySystemComponent* AFrozenPlayerState::GetAbilitySystemComponent() const
 UAttributeSet* AFrozenPlayerState::GetAttributeSet() const
 {
 	return AttributeSet;
+}
+
+UQuestManagerComponent* AFrozenPlayerState::GetQuestManagerComponent() const
+{
+	return QuestManagerComponent;
 }
 
 void AFrozenPlayerState::OnRep_Level(int32 OldLevel)

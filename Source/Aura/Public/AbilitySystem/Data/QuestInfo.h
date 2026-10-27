@@ -19,15 +19,26 @@ public:
 	FGameplayTag QuestTag = FGameplayTag();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag CollectionTag = FGameplayTag();
+	
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText QuestName = FText();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText QuestDescription = FText();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UTexture2D> QuestIcon;
+	TObjectPtr<UTexture2D> QuestIcon = nullptr;
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int32 RequiredPlayerLevel = 1;
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FGameplayTag> PrerequisiteQuestTags;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int32 SortOrder = 0;
 };
 
 

@@ -10,9 +10,23 @@ void UFrozenAbilitySystemComponent::AbilityActorInfoSet()
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UFrozenAbilitySystemComponent::EffectApplied);
 	
 	const FFrozenGameplayTags& GameplayTags = FFrozenGameplayTags::Get();
-	//GameplayTags.Attributes_Secondary_Armor.ToString();
 	
-	//GEngine->AddOnScreenDebugMessage(-1,10,FColor::Green,FString::Printf(TEXT("%s"),*GameplayTags.Attributes_Secondary_Armor.ToString()));
+	
+}
+
+void UFrozenAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& Abilities)
+{
+	for ( TSubclassOf<UGameplayAbility> Ability : Abilities)
+	{
+		FGameplayAbilitySpec AbilitySpec =	FGameplayAbilitySpec(Ability,1);
+		
+		GiveAbilityAndActivateOnce(AbilitySpec);
+			
+	}
+	
+	
+	
+	
 	
 }
 

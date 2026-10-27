@@ -3,6 +3,7 @@
 
 #include "Character/MainCharacterBase.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/FrozenAbilitySystemComponent.h"
 #include "Player/FrozenPlayerState.h"
 
 
@@ -55,6 +56,18 @@ void AMainCharacterBase::InitializeDefaultDefaultAttributes()
 	ApplyEffectToSelf(DefaultPrimaryAttributes,1);
 	ApplyEffectToSelf(DefaultSecondaryAttributes,1);
 	ApplyEffectToSelf(DefaultVitalAttributes,1);
+}
+
+void AMainCharacterBase::AddCharacterAbilities()
+{
+	UFrozenAbilitySystemComponent* FrozenASC = Cast<UFrozenAbilitySystemComponent>(GetAbilitySystemComponent());
+	if (!HasAuthority())return;
+	
+	FrozenASC->AddCharacterAbilities(StartupAbilities);
+	
+	
+	
+	
 }
 
 

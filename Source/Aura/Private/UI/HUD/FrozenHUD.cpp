@@ -35,7 +35,7 @@ UAttributeMenuWidgetController* AFrozenHUD::GetAttributeMenuWidgetController(
 	return AttributeMenuWidgetController;
 }
 
-UQuestLogWidgetController* AFrozenHUD::GetQuestLogWidegtContorller(const FWidgetControllerParameters& WCParams)
+UQuestLogWidgetController* AFrozenHUD::GetQuestLogWidgetController(const FWidgetControllerParameters& WCParams)
 {
 	if (QuestLogWidgetController == nullptr)
 	{

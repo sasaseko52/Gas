@@ -5,14 +5,30 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include"AbilitySystemComponent.h"
+#include "FrozenGameplayTags.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
 UFrozenAttributeSet::UFrozenAttributeSet()
 {
-	InitHealth(10.f);
-
-	InitMaxMana(10.f);
+	const FFrozenGameplayTags& GameplayTags =FFrozenGameplayTags::Get();
+	
+	
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength,GetStrengthAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence,GetIntelligenceAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Primary_Vigor,GetVigorAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience,GetResilienceAttribute);
+	
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_Armor,GetArmorAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_ArmorPenetration,GetArmorPenetrationAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_BlockChance,GetBlockChanceAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance,GetCriticalHitChanceAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitDamage,GetCriticalHitDamageAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitResistance,GetCriticalHitResistanceAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_HealthRegeneration,GetHealthRegenerationAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_ManaRegeneration,GetManaRegenerationAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana,GetMaxManaAttribute);
+	GameplayTagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxHealth,GetMaxHealthAttribute);
 	
 	
 }
