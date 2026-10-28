@@ -26,10 +26,14 @@ GameplayTagsInstance.Attributes_Secondary_CriticalHitResistance = UGameplayTagsM
 GameplayTagsInstance.Attributes_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.HealthRegeneration"),FString("HealthRegeneration"));
 GameplayTagsInstance.Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ManaRegeneration"),FString("ManaRegeneration"));
 	
+	//InputTags
 	
-	
-	
-	
+	GameplayTagsInstance.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.LMB"),FString("LMB"));	
+	GameplayTagsInstance.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.RMB"),FString("RMB"));
+	GameplayTagsInstance.InputTag_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.1"),FString("1"));
+	GameplayTagsInstance.InputTag_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.2"),FString("2"));
+	GameplayTagsInstance.InputTag_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.3"),FString("3"));
+	GameplayTagsInstance.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.4"),FString("4"));
 	
 	
 	
@@ -38,7 +42,7 @@ GameplayTagsInstance.Attributes_Secondary_ManaRegeneration = UGameplayTagsManage
 GameplayTagsInstance.QuestCollection_Goblin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("QuestCollection.Goblin"),FString("Goblin Quest Collection"));
 GameplayTagsInstance.QuestCollection_Skeleton = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("QuestCollection.Skeleton"),FString("Skeleton Quest Collection"));
 GameplayTagsInstance.QuestCollection_Demon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("QuestCollection.Demon"),FString("Demon Quest Collection"));
-	GameplayTagsInstance.QuestCollection_Forest = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("QuestCollection.Forest"),FString("Forest Quest Collection"));
+GameplayTagsInstance.QuestCollection_Forest = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("QuestCollection.Forest"),FString("Forest Quest Collection"));
 	
 	//Quest Tags
 GameplayTagsInstance.Quest_Goblin_GoblinExtermination = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Quest.Goblin.GoblinExtermination"),FString("GoblinExtermination"));

@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
 #include "FrozenPlayerController.generated.h"
 
+class UFrozenInputConfig;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -37,5 +39,11 @@ private:
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UFrozenInputConfig> FrozenInputConfig;
 	
+	
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 };

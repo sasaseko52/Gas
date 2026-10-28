@@ -3,7 +3,7 @@
 
 #include "Player/FrozenPlayerController.h"
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
+#include "Input/FrozenInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
 AFrozenPlayerController::AFrozenPlayerController()
@@ -45,10 +45,30 @@ void AFrozenPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 	
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UFrozenInputComponent* FrozenInputComponent = CastChecked<UFrozenInputComponent>(InputComponent);
 	
-	EnhancedInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this,&AFrozenPlayerController::Move);
+	FrozenInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this,&AFrozenPlayerController::Move);
 	
+	
+	FrozenInputComponent->BindAbilityActions(FrozenInputConfig,this,&AFrozenPlayerController::AbilityInputTagPressed,&AFrozenPlayerController::AbilityInputTagReleased,
+		&AFrozenPlayerController::AbilityInputTagHeld);
+	
+	
+
+}
+void AFrozenPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1,3,FColor::Blue ,*InputTag.ToString());
+}
+
+void AFrozenPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2,3,FColor::Red ,*InputTag.ToString());
+}
+
+void AFrozenPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3,3,FColor::Green ,*InputTag.ToString());
 }
 
 void AFrozenPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -101,3 +121,4 @@ void AFrozenPlayerController::CursorTrace()
 	}
 		
 }
+
