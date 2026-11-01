@@ -40,6 +40,13 @@ void AMainCharacterBase::InitAbilityActorInfo()
 {
 }
 
+FVector AMainCharacterBase::GetCombatSocketLocation()
+{
+	if (!Weapon) return FVector();
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	
+}
+
 void AMainCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level)
 {
 	check(IsValid(GetAbilitySystemComponent()));

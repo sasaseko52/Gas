@@ -25,6 +25,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(FrozenAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(FrozenAttributeSet->GetManaAttribute()).AddUObject(this,&UOverlayWidgetController::ManaChanged);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(FrozenAttributeSet->GetMaxManaAttribute()).AddUObject(this,&UOverlayWidgetController::MaxManaChanged);
+	
+	//if any  effect applied to the player  bind the effect asset tags container to  TagContainerChanged Func.
 	Cast<UFrozenAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTagsDelegate.AddUObject(this, &UOverlayWidgetController::TagContainerChanged);
 }
 
