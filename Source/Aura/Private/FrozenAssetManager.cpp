@@ -1,6 +1,8 @@
 // Copyright Mostafa Ibrahem
 
 #include "FrozenAssetManager.h"
+
+#include "AbilitySystemGlobals.h"
 #include "FrozenGameplayTags.h"
 
 UFrozenAssetManager& UFrozenAssetManager::Get()
@@ -13,6 +15,6 @@ UFrozenAssetManager& UFrozenAssetManager::Get()
 void UFrozenAssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
-	
 	FFrozenGameplayTags::InitializeNativeGameplayTags();
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }

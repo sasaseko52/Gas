@@ -22,4 +22,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	TSubclassOf<AFrozenProjectile> ProjectileClass;
 	
+	UFUNCTION(BlueprintCallable, Category= "Projectile")
+	void SpawnProjectile(const FVector& Location);
 };

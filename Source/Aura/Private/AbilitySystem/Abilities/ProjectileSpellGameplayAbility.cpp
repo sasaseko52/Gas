@@ -13,8 +13,14 @@ void UProjectileSpellGameplayAbility::ActivateAbility(const FGameplayAbilitySpec
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	
 	
-	 if (!HasAuthority(&ActivationInfo)) return;
-	 
+	
+}
+
+void UProjectileSpellGameplayAbility::SpawnProjectile(const FVector& Location)
+{
+	
+	
+	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
 	
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 	
@@ -23,18 +29,19 @@ void UProjectileSpellGameplayAbility::ActivateAbility(const FGameplayAbilitySpec
 		FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
+		FRotator Rotation = (Location - SocketLocation).Rotation();
+		//Rotation.Pitch = 0.0f;
+		SpawnTransform.SetRotation(Rotation.Quaternion());
 		
 		AFrozenProjectile* Projectile = GetWorld()->SpawnActorDeferred<AFrozenProjectile>(ProjectileClass,SpawnTransform,GetOwningActorFromActorInfo(),
 				GetOwningActorFromActorInfo()->GetInstigator(),ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 		
 		
 		
-		
-		
+			
+			
 		Projectile->FinishSpawning(SpawnTransform);
 	}
-	
-	
 	
 	
 	

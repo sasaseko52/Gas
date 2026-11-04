@@ -74,6 +74,8 @@ void AFrozenPlayerController::SetupInputComponent()
 	
 	FrozenInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this,&AFrozenPlayerController::Move);
 	
+	FrozenInputComponent->BindAction(ShiftAction,ETriggerEvent::Started,this,&AFrozenPlayerController::ShiftPressed);
+	FrozenInputComponent->BindAction(ShiftAction,ETriggerEvent::Completed,this,&AFrozenPlayerController::ShiftReleased);
 	
 	FrozenInputComponent->BindAbilityActions(FrozenInputConfig,this,&AFrozenPlayerController::AbilityInputTagPressed,&AFrozenPlayerController::AbilityInputTagReleased,
 		&AFrozenPlayerController::AbilityInputTagHeld);
@@ -103,16 +105,11 @@ void AFrozenPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		}
 		return;
 	}
-	if (bTargeting)
+	if (GetASC())
 	{
-		// Activate Ability 
-		
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		GetASC()->AbilityInputTagReleased(InputTag);
 	}
-	else
+	if (!bTargeting && !bShiftPressed )
 	{
 		APawn* ControllerPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControllerPawn)
@@ -134,6 +131,7 @@ void AFrozenPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		FollowTime = 0;
 		bTargeting = false;
 	}
+	
 }
 
 void AFrozenPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -146,7 +144,7 @@ void AFrozenPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 	
-	if (bTargeting)
+	if (bTargeting  || bShiftPressed)
 	{
 		// Activate Ability 
 		
