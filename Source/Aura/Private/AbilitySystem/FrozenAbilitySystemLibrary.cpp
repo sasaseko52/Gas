@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/FrozenAbilitySystemLibrary.h"
 #include "AbilitySystem/FrozenAttributeSet.h"
+#include "Game/FrozenGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/FrozenPlayerState.h"
 #include "UI/HUD/FrozenHUD.h"
@@ -69,4 +70,33 @@ UQuestLogWidgetController* UFrozenAbilitySystemLibrary::GetQuestLogWidgetControl
 	
 	
 	return nullptr;
+}
+
+void UFrozenAbilitySystemLibrary::InitializeDefaultAttributes(UAbilitySystemComponent* ASC, const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level)
+{
+	
+	AFrozenGameMode* FrozenGameMode = Cast<AFrozenGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+		
+	if (!FrozenGameMode) return;
+	
+	AActor* AvatarActor = ASC->GetAvatarActor();
+	
+	FCharacterClassDefaultInfo CharacterClassDefaultInfo = FrozenGameMode->CharacterInfoClass->GetClassDefaultInfo(CharacterClass);
+	
+	FGameplayEffectContextHandle PrimaryContextHandle = ASC->MakeEffectContext();
+	FGameplayEffectSpecHandle PrimarySpecHandle=	ASC->MakeOutgoingSpec(CharacterClassDefaultInfo.PrimaryAttributes,Level,PrimaryContextHandle);
+	PrimaryContextHandle.AddSourceObject(AvatarActor);
+	ASC->ApplyGameplayEffectSpecToSelf(*PrimarySpecHandle.Data.Get());
+	
+	
+	FGameplayEffectContextHandle SecondaryContextHandle = ASC->MakeEffectContext();
+	FGameplayEffectSpecHandle SecondarySpecHandle=	ASC->MakeOutgoingSpec( FrozenGameMode->CharacterInfoClass->SecondaryAttributes,Level,SecondaryContextHandle);
+	SecondaryContextHandle.AddSourceObject(AvatarActor);
+	ASC->ApplyGameplayEffectSpecToSelf(*SecondarySpecHandle.Data.Get());
+	
+	FGameplayEffectContextHandle VitalContextHandle = ASC->MakeEffectContext();
+	FGameplayEffectSpecHandle VitalSpecHandle=	ASC->MakeOutgoingSpec( FrozenGameMode->CharacterInfoClass->VitalAttributes,Level,VitalContextHandle);
+	VitalContextHandle.AddSourceObject(AvatarActor);
+	ASC->ApplyGameplayEffectSpecToSelf(*VitalSpecHandle.Data.Get());
+	
 }

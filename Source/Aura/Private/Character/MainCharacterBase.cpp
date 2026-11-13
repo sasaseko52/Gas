@@ -4,6 +4,7 @@
 #include "Character/MainCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/FrozenAbilitySystemComponent.h"
+#include "AbilitySystem/FrozenAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "Player/FrozenPlayerState.h"
@@ -14,6 +15,7 @@ AMainCharacterBase::AMainCharacterBase()
  	PrimaryActorTick.bCanEverTick = false;
 	
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera,ECR_Ignore);
+	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera,ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile,ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
@@ -64,11 +66,9 @@ void AMainCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gameplay
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*EffectSpec.Data.Get(),GetAbilitySystemComponent());
 }
 
-void AMainCharacterBase::InitializeDefaultDefaultAttributes()
+void AMainCharacterBase::InitializeDefaultAttributes()
 {
-	ApplyEffectToSelf(DefaultPrimaryAttributes,1);
-	ApplyEffectToSelf(DefaultSecondaryAttributes,1);
-	ApplyEffectToSelf(DefaultVitalAttributes,1);
+	UFrozenAbilitySystemLibrary::InitializeDefaultAttributes(AbilitySystemComponent,this,CharacterClass,GetPlayerLevel());
 }
 
 void AMainCharacterBase::AddCharacterAbilities()

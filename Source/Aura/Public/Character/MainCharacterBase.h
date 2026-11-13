@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "MainCharacterBase.generated.h"
@@ -12,6 +13,7 @@ class UGameplayAbility;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
+
 UCLASS(Abstract)
 class AURA_API AMainCharacterBase : public ACharacter, public IAbilitySystemInterface , public ICombatInterface
 {
@@ -61,9 +63,12 @@ protected:
 	
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass,float Level);
 	
-	void InitializeDefaultDefaultAttributes();
+	virtual void InitializeDefaultAttributes();
 	
 	void AddCharacterAbilities();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults" , meta = (AllowPrivateAccess = true))
+	ECharacterClass CharacterClass = ECharacterClass::Knight;
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

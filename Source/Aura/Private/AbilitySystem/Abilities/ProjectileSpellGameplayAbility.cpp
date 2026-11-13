@@ -2,6 +2,9 @@
 
 
 #include "AbilitySystem/Abilities/ProjectileSpellGameplayAbility.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+#include "FrozenGameplayTags.h"
 #include "Actor/FrozenProjectile.h"
 #include "Interaction/CombatInterface.h"
 
@@ -37,9 +40,16 @@ void UProjectileSpellGameplayAbility::SpawnProjectile(const FVector& Location)
 				GetOwningActorFromActorInfo()->GetInstigator(),ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 		
 		
+		UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+			
+		FGameplayEffectSpecHandle DamageSpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect,GetAbilityLevel(),SourceASC->MakeEffectContext());
 		
-			
-			
+		FFrozenGameplayTags  GameplayTags = FFrozenGameplayTags::Get();
+		float ScaledDamage = 	Damage.GetValueAtLevel(GetAbilityLevel());
+		
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle,GameplayTags.Damage,ScaledDamage);
+		Projectile->DamageEffectSpecHandle = DamageSpecHandle;
+		
 		Projectile->FinishSpawning(SpawnTransform);
 	}
 	

@@ -4,6 +4,8 @@
 #include "Character/EnemyCharacter.h"
 #include "AbilitySystem/FrozenAbilitySystemComponent.h"
 #include "AbilitySystem/FrozenAttributeSet.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/FrozenUserWidget.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -13,6 +15,10 @@ AEnemyCharacter::AEnemyCharacter()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
 	AttributeSet = CreateDefaultSubobject<UFrozenAttributeSet>("AttributeSet");
+	
+	
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 int32 AEnemyCharacter::GetPlayerLevel()
@@ -25,15 +31,46 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	InitAbilityActorInfo();
+	InitializeDefaultAttributes();
 	
 	
 	
+	if (UFrozenUserWidget* FrozenUserWidget = Cast<UFrozenUserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		FrozenUserWidget->SetWidgetController(this);
+	}
+	
+	
+	if (const UFrozenAttributeSet* FrozenAttributeSet = CastChecked<UFrozenAttributeSet>(AttributeSet))
+	{
+		//Broadcast the Future changes values of Health and Max Health
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(FrozenAttributeSet->GetHealthAttribute()).AddUObject(this,&AEnemyCharacter::OnHealthChanged);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(FrozenAttributeSet->GetMaxHealthAttribute()).AddUObject(this,&AEnemyCharacter::OnMaxHealthChanged);
+		
+		//Broadcast the initial Values of Health and Max Health
+		OnHealthChangedDelegate.Broadcast(FrozenAttributeSet->GetHealth());
+		OnMaxHealthChangedDelegate.Broadcast(FrozenAttributeSet->GetMaxHealth());
+	}
+
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this,this);
 	Cast<UFrozenAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+	
+	InitializeDefaultAttributes();
+}
+
+
+void AEnemyCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
+{
+	OnHealthChangedDelegate.Broadcast(Data.NewValue);
+}
+
+void AEnemyCharacter::OnMaxHealthChanged(const FOnAttributeChangeData& Data)
+{
+	OnMaxHealthChangedDelegate.Broadcast(Data.NewValue);
 }
 
 void AEnemyCharacter::HighlightActor()

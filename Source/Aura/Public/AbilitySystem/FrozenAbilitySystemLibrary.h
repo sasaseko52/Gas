@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Data/CharacterClassInfo.h"
 #include "FrozenAbilitySystemLibrary.generated.h"
 
+
+class UAbilitySystemComponent;
 class UQuestLogWidgetController;
 class UOverlayWidgetController;
 /**
@@ -28,4 +31,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "FrozenAbilitySystemLibrary|Widget Controller")
 	static UQuestLogWidgetController* GetQuestLogWidgetController(const UObject* WorldContextObject);
+	
+	UFUNCTION(BlueprintCallable, Category = "FrozenAbilitySystemLibrary|Character Class Info")
+	static void InitializeDefaultAttributes(UAbilitySystemComponent* ASC,const UObject* WorldContextObject,ECharacterClass CharacterClass,  float  Level);
 };

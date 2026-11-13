@@ -35,7 +35,9 @@ GameplayTagsInstance.Attributes_Secondary_ManaRegeneration = UGameplayTagsManage
 	GameplayTagsInstance.InputTag_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.3"),FString("3"));
 	GameplayTagsInstance.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.4"),FString("4"));
 	
+	//Set by Caller 
 	
+	GameplayTagsInstance.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),FString("Damage"));
 	
 	
 	//Quest Collection Tags 

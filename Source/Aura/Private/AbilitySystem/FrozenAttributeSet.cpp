@@ -7,6 +7,7 @@
 #include"AbilitySystemComponent.h"
 #include "FrozenGameplayTags.h"
 #include "GameplayEffectExtension.h"
+#include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 
 UFrozenAttributeSet::UFrozenAttributeSet()
@@ -85,7 +86,7 @@ void UFrozenAttributeSet::SetEffectProperties(FEffectProperties& EffectPropertie
 		}
 		if (EffectProperties.SourceController)
 		{
-			EffectProperties.SourceCharacter = EffectProperties.SourceController->GetCharacter();
+			EffectProperties.SourceCharacter = Cast<ACharacter>(EffectProperties.SourceController->GetPawn());
 		}
 	}
 	
@@ -93,7 +94,7 @@ void UFrozenAttributeSet::SetEffectProperties(FEffectProperties& EffectPropertie
 	{
 		EffectProperties.TargetAvatarActor = Data.Target.GetAvatarActor();
 		EffectProperties.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
-		EffectProperties.TargetCharacter = EffectProperties.TargetController->GetCharacter();
+		EffectProperties.TargetCharacter = Cast<ACharacter>(EffectProperties.TargetAvatarActor);
 		EffectProperties.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EffectProperties.TargetAvatarActor);
 	}
 }
@@ -110,6 +111,16 @@ void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffect
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		SetMana(FMath::Clamp(GetMana(),0.f,GetMaxMana()));
+	}
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float CachedIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0.f);
+		if (CachedIncomingDamage > 0.f )
+		{
+			const float NewHealth = GetHealth() - CachedIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth,0.f,GetMaxHealth()));
+		}
 	}
 }
 

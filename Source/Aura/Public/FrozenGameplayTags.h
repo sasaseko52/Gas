@@ -49,9 +49,9 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 	
+	//Set by Caller
 	
-	
-	
+	FGameplayTag Damage;
 	
 	
 	

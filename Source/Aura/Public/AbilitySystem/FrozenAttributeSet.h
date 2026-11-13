@@ -61,9 +61,13 @@ public:
 	
 	TMap<FGameplayTag,AttributeFuncPtr> GameplayTagsToAttributes;
 	
+	//**Meta (not replicated)
+	UPROPERTY(BlueprintReadOnly, Category= "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UFrozenAttributeSet,IncomingDamage)
 	
 	
-	
+	//**Vital
 	///Health
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing = OnRep_Health, Category="Vital Attributes")
 	FGameplayAttributeData Health;

@@ -6,7 +6,7 @@
 #include "AbilitySystem/Abilities/BaseGameplayAbility.h"
 #include "ProjectileSpellGameplayAbility.generated.h"
 
-
+class UGameplayEffect;
 class AFrozenProjectile;
 
 UCLASS()
@@ -24,4 +24,8 @@ protected:
 	
 	UFUNCTION(BlueprintCallable, Category= "Projectile")
 	void SpawnProjectile(const FVector& Location);
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category= "Projectile")
+	TSubclassOf<UGameplayEffect> DamageEffect;
+	
 };
