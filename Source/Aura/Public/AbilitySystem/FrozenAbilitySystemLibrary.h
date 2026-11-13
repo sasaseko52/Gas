@@ -34,4 +34,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "FrozenAbilitySystemLibrary|Character Class Info")
 	static void InitializeDefaultAttributes(UAbilitySystemComponent* ASC,const UObject* WorldContextObject,ECharacterClass CharacterClass,  float  Level);
+	
+	UFUNCTION(BlueprintCallable, Category = "FrozenAbilitySystemLibrary|Character Class Info")
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
 };

@@ -35,6 +35,10 @@ UAttributeSet* AMainCharacterBase::GetAttributeSet() const
 	return AttributeSet;
 }
 
+UAnimMontage* AMainCharacterBase::GetHitReactAnimation_Implementation()
+{
+	return HitReactMontage;
+}
 
 
 // Called when the game starts or when spawned

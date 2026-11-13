@@ -53,7 +53,8 @@ public:
 	
 	FGameplayTag Damage;
 	
-	
+	//Effects
+	FGameplayTag Effects_HitReact;
 	
 	//Quests
 	FGameplayTag QuestCollection_Goblin;

@@ -13,6 +13,7 @@ class UGameplayAbility;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
+class UAnimMontage;
 
 UCLASS(Abstract)
 class AURA_API AMainCharacterBase : public ACharacter, public IAbilitySystemInterface , public ICombatInterface
@@ -27,6 +28,7 @@ public:
 	
 	
 	//Combat Interface
+	virtual UAnimMontage* GetHitReactAnimation_Implementation() override;
 	//virtual int32 GetPlayerLevel()  override;
 	
 protected:
@@ -72,4 +74,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+	
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 };

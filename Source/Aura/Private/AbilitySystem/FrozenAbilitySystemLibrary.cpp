@@ -100,3 +100,18 @@ void UFrozenAbilitySystemLibrary::InitializeDefaultAttributes(UAbilitySystemComp
 	ASC->ApplyGameplayEffectSpecToSelf(*VitalSpecHandle.Data.Get());
 	
 }
+
+void UFrozenAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	AFrozenGameMode* FrozenGameMode = Cast<AFrozenGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (!FrozenGameMode) return;
+	
+	for (TSubclassOf<UGameplayAbility> Ability :FrozenGameMode->CharacterInfoClass->CommonGameplayAbilities)
+	{
+		
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability);
+		ASC->GiveAbility(AbilitySpec);
+	}
+	
+	
+}

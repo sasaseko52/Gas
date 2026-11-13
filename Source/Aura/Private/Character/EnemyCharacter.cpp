@@ -2,9 +2,13 @@
 
 
 #include "Character/EnemyCharacter.h"
+
+#include "FrozenGameplayTags.h"
 #include "AbilitySystem/FrozenAbilitySystemComponent.h"
+#include "AbilitySystem/FrozenAbilitySystemLibrary.h"
 #include "AbilitySystem/FrozenAttributeSet.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "UI/Widget/FrozenUserWidget.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -26,14 +30,17 @@ int32 AEnemyCharacter::GetPlayerLevel()
 	return EnemyLevel;
 }
 
+
+
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseSpeed;
 	
 	InitAbilityActorInfo();
 	InitializeDefaultAttributes();
 	
-	
+	UFrozenAbilitySystemLibrary::GiveStartupAbilities(this,AbilitySystemComponent);
 	
 	if (UFrozenUserWidget* FrozenUserWidget = Cast<UFrozenUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -50,8 +57,11 @@ void AEnemyCharacter::BeginPlay()
 		//Broadcast the initial Values of Health and Max Health
 		OnHealthChangedDelegate.Broadcast(FrozenAttributeSet->GetHealth());
 		OnMaxHealthChangedDelegate.Broadcast(FrozenAttributeSet->GetMaxHealth());
+		
+		FFrozenGameplayTags GameplayTag = FFrozenGameplayTags::Get();
+		AbilitySystemComponent->RegisterGameplayTagEvent(GameplayTag.Effects_HitReact).AddUObject(this,&AEnemyCharacter::OnHitReactTagChanged);
 	}
-
+	
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()
@@ -87,3 +97,15 @@ void AEnemyCharacter::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+void AEnemyCharacter::OnHitReactTagChanged(const FGameplayTag Tag, int32 TagCount)
+{
+	 bHitReact = TagCount > 0;
+	
+	
+	GetCharacterMovement()->MaxWalkSpeed = bHitReact ? 0 : BaseSpeed;
+		
+
+		
+		
+		
+}

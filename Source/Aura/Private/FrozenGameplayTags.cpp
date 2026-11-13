@@ -38,7 +38,8 @@ GameplayTagsInstance.Attributes_Secondary_ManaRegeneration = UGameplayTagsManage
 	//Set by Caller 
 	
 	GameplayTagsInstance.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),FString("Damage"));
-	
+	//Effects
+	GameplayTagsInstance.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("HitReact"));
 	
 	//Quest Collection Tags 
 GameplayTagsInstance.QuestCollection_Goblin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("QuestCollection.Goblin"),FString("Goblin Quest Collection"));

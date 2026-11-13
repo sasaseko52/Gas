@@ -120,6 +120,14 @@ void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffect
 		{
 			const float NewHealth = GetHealth() - CachedIncomingDamage;
 			SetHealth(FMath::Clamp(NewHealth,0.f,GetMaxHealth()));
+			const bool bFatal = NewHealth <= 0.f;
+			if (!bFatal)
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FFrozenGameplayTags::Get().Effects_HitReact);
+				EffectProps.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+				
+			}
 		}
 	}
 }
