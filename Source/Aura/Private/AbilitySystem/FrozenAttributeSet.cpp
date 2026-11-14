@@ -8,6 +8,7 @@
 #include "FrozenGameplayTags.h"
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
 #include "Net/UnrealNetwork.h"
 
 UFrozenAttributeSet::UFrozenAttributeSet()
@@ -121,12 +122,19 @@ void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffect
 			const float NewHealth = GetHealth() - CachedIncomingDamage;
 			SetHealth(FMath::Clamp(NewHealth,0.f,GetMaxHealth()));
 			const bool bFatal = NewHealth <= 0.f;
-			if (!bFatal)
+			if (bFatal)
+			{
+				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(EffectProps.TargetAvatarActor))
+				{
+					CombatInterface->Die();
+				}
+				
+			}
+			else
 			{
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FFrozenGameplayTags::Get().Effects_HitReact);
 				EffectProps.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
-				
 			}
 		}
 	}

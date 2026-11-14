@@ -40,6 +40,31 @@ UAnimMontage* AMainCharacterBase::GetHitReactAnimation_Implementation()
 	return HitReactMontage;
 }
 
+void AMainCharacterBase::Die()
+{
+	//if (!HasAuthority())return;
+	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld,true);
+	Weapon->DetachFromComponent(DetachmentRules);
+	MulticastHandleDeath();
+	
+	
+	
+}
+
+void AMainCharacterBase::MulticastHandleDeath_Implementation()
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic,ECR_Block);
+	
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
 
 // Called when the game starts or when spawned
 void AMainCharacterBase::BeginPlay()

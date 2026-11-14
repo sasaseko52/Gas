@@ -29,8 +29,14 @@ public:
 	
 	//Combat Interface
 	virtual UAnimMontage* GetHitReactAnimation_Implementation() override;
+	
+	virtual void Die() override;
 	//virtual int32 GetPlayerLevel()  override;
 	
+	
+	
+	UFUNCTION(NetMulticast,Reliable)
+	virtual void MulticastHandleDeath();
 protected:
 	
 	virtual void BeginPlay() override;

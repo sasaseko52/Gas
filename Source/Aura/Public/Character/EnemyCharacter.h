@@ -29,6 +29,8 @@ public:
 	
 	//Combat Interface
 	virtual int32 GetPlayerLevel() override;
+	virtual void Die() override;
+	
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChangedDelegate;
