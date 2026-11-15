@@ -7,7 +7,7 @@
 #include "AbilitySystem/FrozenAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
-#include "Player/FrozenPlayerState.h"
+
 
 
 AMainCharacterBase::AMainCharacterBase()
@@ -43,8 +43,8 @@ UAnimMontage* AMainCharacterBase::GetHitReactAnimation_Implementation()
 void AMainCharacterBase::Die()
 {
 	//if (!HasAuthority())return;
-	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld,true);
-	Weapon->DetachFromComponent(DetachmentRules);
+	
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld,true));
 	MulticastHandleDeath();
 	
 	
@@ -53,9 +53,13 @@ void AMainCharacterBase::Die()
 
 void AMainCharacterBase::MulticastHandleDeath_Implementation()
 {
-	Weapon->SetSimulatePhysics(true);
-	Weapon->SetEnableGravity(true);
-	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	if (Weapon)
+	{
+		Weapon->SetSimulatePhysics(true);
+		Weapon->SetEnableGravity(true);
+		Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	}
+	
 	
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetEnableGravity(true);
@@ -63,6 +67,7 @@ void AMainCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic,ECR_Block);
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Dissolve();
 }
 
 
@@ -107,9 +112,23 @@ void AMainCharacterBase::AddCharacterAbilities()
 	
 	FrozenASC->AddCharacterAbilities(StartupAbilities);
 	
-	
-	
-	
+}
+
+void AMainCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInstance = UMaterialInstanceDynamic::Create(DissolveMaterialInstance,this);
+		GetMesh()->SetMaterial(0,DynamicMatInstance);
+		
+		StartDissolveTimeline(DynamicMatInstance);
+	}
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInstance = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance,this);
+		Weapon->SetMaterial(0,DynamicMatInstance);
+		StartDissolveTimeline(DynamicMatInstance);
+	}
 }
 
 

@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "FrozenPlayerController.generated.h"
 
+class UDamageTextComponent;
 class UFrozenAbilitySystemComponent;
 class UFrozenInputConfig;
 class UInputMappingContext;
@@ -24,6 +25,11 @@ public:
 	AFrozenPlayerController();
 	void AutoRun();
 	virtual void PlayerTick(float DeltaTime) override;
+	
+	
+	
+	UFUNCTION(Client,Reliable)
+	void ShowDamageText(float DamageAmount, ACharacter* TargetCharacter);
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -82,5 +88,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
 	
-	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };

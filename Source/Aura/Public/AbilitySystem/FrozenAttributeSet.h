@@ -173,5 +173,6 @@ public:
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)const;
 private:
 	
-	void SetEffectProperties(FEffectProperties& EffectProperties,const FGameplayEffectModCallbackData& Data);  
+	void SetEffectProperties(FEffectProperties& EffectProperties,const FGameplayEffectModCallbackData& Data);
+	void ShowFloatingText(const FEffectProperties& EffectProps, float CachedIncomingDamage);
 };

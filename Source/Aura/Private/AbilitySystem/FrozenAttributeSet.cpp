@@ -9,7 +9,9 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/FrozenPlayerController.h"
 
 UFrozenAttributeSet::UFrozenAttributeSet()
 {
@@ -78,7 +80,7 @@ void UFrozenAttributeSet::SetEffectProperties(FEffectProperties& EffectPropertie
 	{
 		EffectProperties.SourceAvatarActor = EffectProperties.SourceAbilitySystemComponent->GetAvatarActor();
 		EffectProperties.SourceController = EffectProperties.SourceAbilitySystemComponent->AbilityActorInfo->PlayerController.Get();
-		if (EffectProperties.SourceController== nullptr && EffectProperties.SourceAvatarActor  != nullptr)
+		if (EffectProperties.SourceController == nullptr && EffectProperties.SourceAvatarActor  != nullptr)
 		{
 			if (APawn* Pawn = Cast<APawn>(EffectProperties.SourceAvatarActor ))
 			{
@@ -99,6 +101,9 @@ void UFrozenAttributeSet::SetEffectProperties(FEffectProperties& EffectPropertie
 		EffectProperties.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EffectProperties.TargetAvatarActor);
 	}
 }
+
+
+
 void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -117,6 +122,7 @@ void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffect
 	{
 		const float CachedIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
+		
 		if (CachedIncomingDamage > 0.f )
 		{
 			const float NewHealth = GetHealth() - CachedIncomingDamage;
@@ -136,10 +142,21 @@ void UFrozenAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffect
 				TagContainer.AddTag(FFrozenGameplayTags::Get().Effects_HitReact);
 				EffectProps.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
+			
+			ShowFloatingText(EffectProps, CachedIncomingDamage);
 		}
 	}
 }
-
+void UFrozenAttributeSet::ShowFloatingText(const FEffectProperties& EffectProps, const float CachedIncomingDamage)
+{
+	if (EffectProps.SourceCharacter != EffectProps.TargetCharacter)
+	{
+		if (AFrozenPlayerController* FrozenPlayerController=	Cast<AFrozenPlayerController>(UGameplayStatics::GetPlayerController(EffectProps.SourceController,0)))
+		{
+			FrozenPlayerController->ShowDamageText(CachedIncomingDamage, EffectProps.TargetCharacter);
+		}
+	}
+}
 
 
 void UFrozenAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

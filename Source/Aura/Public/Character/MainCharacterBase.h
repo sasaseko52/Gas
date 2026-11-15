@@ -77,6 +77,19 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults" , meta = (AllowPrivateAccess = true))
 	ECharacterClass CharacterClass = ECharacterClass::Knight;
+	
+	//Dissolve
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dissolve Material")
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dissolve Material")
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+	
+	void Dissolve();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterial);
+	
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

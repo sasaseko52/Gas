@@ -9,8 +9,10 @@
 #include "NavigationSystem.h"
 #include "AbilitySystem/FrozenAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
+#include "GameFramework/Character.h"
 #include "Input/FrozenInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 AFrozenPlayerController::AFrozenPlayerController()
 {
@@ -29,6 +31,20 @@ void AFrozenPlayerController::PlayerTick(float DeltaTime)
 	AutoRun();
 	
 }
+
+void AFrozenPlayerController::ShowDamageText_Implementation(float DamageAmount,ACharacter* TargetCharacter)
+{
+	if (!IsValid(TargetCharacter) || !DamageTextComponentClass) return;
+	
+	
+	UDamageTextComponent*  DamageText =NewObject<UDamageTextComponent>(TargetCharacter,DamageTextComponentClass);
+	DamageText->RegisterComponent();
+	DamageText->AttachToComponent(TargetCharacter->GetRootComponent(),FAttachmentTransformRules::KeepRelativeTransform);
+	DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	DamageText->SetDamageEvent(DamageAmount);
+	
+}
+
 void AFrozenPlayerController::AutoRun()
 {
 	if (!bAutoRunning) return;
