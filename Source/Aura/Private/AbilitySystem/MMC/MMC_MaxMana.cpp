@@ -2,7 +2,6 @@
 
 
 #include "AbilitySystem/MMC/MMC_MaxMana.h"
-
 #include "AbilitySystem/FrozenAttributeSet.h"
 #include "Interaction/CombatInterface.h"
 
