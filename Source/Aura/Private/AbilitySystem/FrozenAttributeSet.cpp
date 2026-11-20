@@ -72,7 +72,6 @@ void UFrozenAttributeSet::SetEffectProperties(FEffectProperties& EffectPropertie
                                               const FGameplayEffectModCallbackData& Data)
 {
 	EffectProperties.EffectContextHandle = Data.EffectSpec.GetContext();
-	 
 	
 	EffectProperties.SourceAbilitySystemComponent = EffectProperties.EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
 	

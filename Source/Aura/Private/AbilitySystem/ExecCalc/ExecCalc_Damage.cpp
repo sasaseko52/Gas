@@ -2,7 +2,9 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 #include "AbilitySystemComponent.h"
 #include "FrozenGameplayTags.h"
+#include "AbilitySystem/FrozenAbilitySystemLibrary.h"
 #include "AbilitySystem/FrozenAttributeSet.h"
+#include "Interaction/CombatInterface.h"
 
 
 //internal struct
@@ -11,11 +13,17 @@ struct FrozenDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalHitChance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalHitDamage);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalHitResistance);
 	FrozenDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UFrozenAttributeSet, Armor,Target,false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UFrozenAttributeSet, ArmorPenetration,Source,false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UFrozenAttributeSet, BlockChance,Target,false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UFrozenAttributeSet, CriticalHitChance,Source,false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UFrozenAttributeSet, CriticalHitDamage,Source,false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UFrozenAttributeSet, CriticalHitResistance,Target,false);
 	}
 	
 
@@ -33,6 +41,9 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(GetFrozenDamageStatics().ArmorDef);
 	RelevantAttributesToCapture.Add(GetFrozenDamageStatics().BlockChanceDef);
 	RelevantAttributesToCapture.Add(GetFrozenDamageStatics().ArmorPenetrationDef);
+	RelevantAttributesToCapture.Add(GetFrozenDamageStatics().CriticalHitChanceDef);
+	RelevantAttributesToCapture.Add(GetFrozenDamageStatics().CriticalHitDamageDef);
+	RelevantAttributesToCapture.Add(GetFrozenDamageStatics().CriticalHitResistanceDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -43,8 +54,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 	
 	
-	const AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
-	const AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	 AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
+	 AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
+	ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
+	
 	
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 	FAggregatorEvaluateParameters EvaluateParameters;
@@ -79,15 +93,38 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	
 	
-	const float EffectiveArmor = TargetArmor *= (100 - SourceArmorPenetration * .25f) / 100.f;
+	
+	UCharacterClassInfo* CharacterClassInfo = UFrozenAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
+	
+	FRealCurve* ArmorPenetrationCoCurve =CharacterClassInfo->DamageCoefficient->FindCurve(FName("ArmorPenetrationCo"),FString());
+	float ArmorPenetrationCo = ArmorPenetrationCoCurve->Eval(SourceCombatInterface->GetPlayerLevel());
 	
 	
+	const float EffectiveArmor = TargetArmor * (100 - SourceArmorPenetration * ArmorPenetrationCo) / 100.f;
 	
-	Damage *= (100 - EffectiveArmor) / 100.f;
+	FRealCurve* EffectiveArmorCurve = CharacterClassInfo->DamageCoefficient->FindCurve(FName("EffectiveArmorCo"),FString());
+	float EffectiveArmorCo = EffectiveArmorCurve->Eval(TargetCombatInterface->GetPlayerLevel());
 	
 	
+	Damage *= (100 - EffectiveArmor * EffectiveArmorCo) / 100.f;
 	
+	/// *** { . . . Source Critical Hit Chance & Damage. . .}  ***
+	float SourceCriticalHitChance = 0.f;
+	float SourceCriticalHitDamage = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetFrozenDamageStatics().CriticalHitChanceDef,EvaluateParameters,SourceCriticalHitChance);
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetFrozenDamageStatics().CriticalHitDamageDef,EvaluateParameters,SourceCriticalHitDamage);
+	/// *** { . . . Target Critical HitResistance. . .}  ***
+	float TargetCriticalHitResistance = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetFrozenDamageStatics().CriticalHitResistanceDef,EvaluateParameters,TargetCriticalHitResistance);
 	
+	float EffectiveCriticalHitResistance = SourceCriticalHitChance - (.1 * TargetCriticalHitResistance);
+	
+	bool bCriticalHit = FMath::RandRange(1,10) < EffectiveCriticalHitResistance;
+	
+	if (bCriticalHit)
+	{
+		Damage = (Damage * 2.f ) + SourceCriticalHitDamage;
+	}
 	
 	
 	FGameplayModifierEvaluatedData ModifierData(UFrozenAttributeSet::GetIncomingDamageAttribute(),EGameplayModOp::Additive,Damage);

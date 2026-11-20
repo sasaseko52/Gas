@@ -75,13 +75,10 @@ UQuestLogWidgetController* UFrozenAbilitySystemLibrary::GetQuestLogWidgetControl
 void UFrozenAbilitySystemLibrary::InitializeDefaultAttributes(UAbilitySystemComponent* ASC, const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level)
 {
 	
-	AFrozenGameMode* FrozenGameMode = Cast<AFrozenGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
-		
-	if (!FrozenGameMode) return;
-	
+	UCharacterClassInfo* CharacterClassInfo =GetCharacterClassInfo(WorldContextObject);
 	AActor* AvatarActor = ASC->GetAvatarActor();
 	
-	FCharacterClassDefaultInfo CharacterClassDefaultInfo = FrozenGameMode->CharacterInfoClass->GetClassDefaultInfo(CharacterClass);
+	FCharacterClassDefaultInfo CharacterClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 	
 	FGameplayEffectContextHandle PrimaryContextHandle = ASC->MakeEffectContext();
 	FGameplayEffectSpecHandle PrimarySpecHandle=	ASC->MakeOutgoingSpec(CharacterClassDefaultInfo.PrimaryAttributes,Level,PrimaryContextHandle);
@@ -90,12 +87,12 @@ void UFrozenAbilitySystemLibrary::InitializeDefaultAttributes(UAbilitySystemComp
 	
 	
 	FGameplayEffectContextHandle SecondaryContextHandle = ASC->MakeEffectContext();
-	FGameplayEffectSpecHandle SecondarySpecHandle=	ASC->MakeOutgoingSpec( FrozenGameMode->CharacterInfoClass->SecondaryAttributes,Level,SecondaryContextHandle);
+	FGameplayEffectSpecHandle SecondarySpecHandle=	ASC->MakeOutgoingSpec( CharacterClassInfo->SecondaryAttributes,Level,SecondaryContextHandle);
 	SecondaryContextHandle.AddSourceObject(AvatarActor);
 	ASC->ApplyGameplayEffectSpecToSelf(*SecondarySpecHandle.Data.Get());
 	
 	FGameplayEffectContextHandle VitalContextHandle = ASC->MakeEffectContext();
-	FGameplayEffectSpecHandle VitalSpecHandle=	ASC->MakeOutgoingSpec( FrozenGameMode->CharacterInfoClass->VitalAttributes,Level,VitalContextHandle);
+	FGameplayEffectSpecHandle VitalSpecHandle=	ASC->MakeOutgoingSpec( CharacterClassInfo->VitalAttributes,Level,VitalContextHandle);
 	VitalContextHandle.AddSourceObject(AvatarActor);
 	ASC->ApplyGameplayEffectSpecToSelf(*VitalSpecHandle.Data.Get());
 	
@@ -103,15 +100,22 @@ void UFrozenAbilitySystemLibrary::InitializeDefaultAttributes(UAbilitySystemComp
 
 void UFrozenAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-	AFrozenGameMode* FrozenGameMode = Cast<AFrozenGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (!FrozenGameMode) return;
-	
-	for (TSubclassOf<UGameplayAbility> Ability :FrozenGameMode->CharacterInfoClass->CommonGameplayAbilities)
+		
+	for (TSubclassOf<UGameplayAbility> Ability : GetCharacterClassInfo(WorldContextObject)->CommonGameplayAbilities)
 	{
 		
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability);
 		ASC->GiveAbility(AbilitySpec);
 	}
 	
+	
+}
+
+UCharacterClassInfo* UFrozenAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+	AFrozenGameMode* FrozenGameMode = Cast<AFrozenGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (!FrozenGameMode) return nullptr;
+	
+	return FrozenGameMode->CharacterInfoClass;
 	
 }

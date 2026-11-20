@@ -8,6 +8,7 @@
 #include "FrozenAbilitySystemLibrary.generated.h"
 
 
+class UAttributeMenuWidgetController;
 class UAbilitySystemComponent;
 class UQuestLogWidgetController;
 class UOverlayWidgetController;
@@ -37,4 +38,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "FrozenAbilitySystemLibrary|Character Class Info")
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+	
+	UFUNCTION(BlueprintCallable, Category = "FrozenAbilitySystemLibrary|Character Class Info")
+	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
 };

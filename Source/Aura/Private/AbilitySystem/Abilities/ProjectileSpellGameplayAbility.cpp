@@ -41,8 +41,17 @@ void UProjectileSpellGameplayAbility::SpawnProjectile(const FVector& Location)
 		
 		
 		UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
-			
-		FGameplayEffectSpecHandle DamageSpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect,GetAbilityLevel(),SourceASC->MakeEffectContext());
+		
+		//*** { . . . CONTEXT HANDLE . . . }  ***
+		FGameplayEffectContextHandle ContextHandle = SourceASC->MakeEffectContext();
+		ContextHandle.SetAbility(this);
+		ContextHandle.AddSourceObject(Projectile);
+		FHitResult HitResult;
+		HitResult.Location = Location;
+		ContextHandle.AddHitResult(HitResult);
+		
+		FGameplayEffectSpecHandle DamageSpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect,GetAbilityLevel(),ContextHandle);
+		
 		
 		FFrozenGameplayTags  GameplayTags = FFrozenGameplayTags::Get();
 		float ScaledDamage = 	Damage.GetValueAtLevel(GetAbilityLevel());
